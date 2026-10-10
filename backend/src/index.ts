@@ -21,12 +21,18 @@ import enrollmentRouter_v3 from "./routes/enrollmentsRouters_v3.ts";
 
 const app = express();
 const port = process.env.PORT || 3000;
+const allowedOrigins = [
+  ...(process.env.CORS_ORIGIN || "http://localhost:5173")
+    .split(",")
+    .map((origin) => origin.trim()),
+  "https://lab18-frontend-680610692.vercel.app",
+];
 
 // CORS middleware: อนุญาตให้ Frontend (Vite dev server คนละ origin) เรียก API ได้
 // ตั้งค่า origin ได้หลายค่าคั่นด้วย "," ผ่าน CORS_ORIGIN ใน .env
 app.use(
   cors({
-    origin: (process.env.CORS_ORIGIN || "http://localhost:5173").split(","),
+    origin: allowedOrigins,
   }),
 );
 
